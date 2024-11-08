@@ -18,16 +18,15 @@ const Register = () => {
         email,
         password
       );
-      const user = userCredential.user;
-
-      // Store the user's additional information in Firestore
-      await setDoc(doc(db, 'users', user.uid), {
-        name: name,
-        email: email,
-        createdAt: new Date(),
-      });
-
-      alert('Registration successful!');
+      const user = auth.currentUser;
+      if (user) {
+        await setDoc(doc(db, 'users', user.uid), {
+          name: name,
+          email: email,
+          createdAt: new Date(),
+        });
+        alert('Registration successful!');
+      }
     } catch (error) {
       alert(error.message);
     }
